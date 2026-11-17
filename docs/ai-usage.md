@@ -25,14 +25,14 @@ read replica.
 
 ## How agents were used to build this
 
-The code was written with Claude Code as the implementing agent, directed
+The code was written with Claude Code as an implementing agent, directed
 step by step. The work followed this order:
 
 1. The rules, stakeholder decision and the invariants, were written down first
   (`decisions.md`, `invariants.md`).
 2. Each invariant became a named test before the code that satisfies it was
   accepted.
-3. Implementation against the tests. The agent wrote the layers one
+3. Implementation against the tests. The agent (and I) wrote the layers one
    at a time, starting from `domain.py` and working outwards.
 4. Every change had to pass `ruff`, `mypy --strict`, the test suite and the
   invariant check. The UI was driven in a real browser, and `make demo` was run against a
@@ -46,8 +46,9 @@ Things that I fixed/wrote myself or needed correcting along the way:
   It now uses `functools.partial`.
 - A `python_version` pin in the mypy settings clashed with an installed
   type stub. The pin was removed, since the code targets 3.11 and up.
-- Style rules such as 79-character lines were enforced by the linter,
+- Style rules such as for example 79-character lines were enforced by the linter,
   not by asking the agent to remember them.
+- Coding tweaks and individual functions.
 - Documentation.
 - UI design (created a skeleton and redeveloped/documented with Claude Design
   Skill).
