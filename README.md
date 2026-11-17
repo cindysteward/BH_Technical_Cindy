@@ -53,7 +53,7 @@ See [D1 in decisions](docs/decisions.md#d1-submitted-requests-never-change).
 - An application has at most one pending or approved request at a time.
 - A decision is final. Declining needs a note.
 
-## Deliberately left out of scope
+## Deliberately left out of scope (needed for production and deployment)
 
 - Real authentication and authorisation.
 - Limiting a relationship manager to their own applications.
