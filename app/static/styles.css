@@ -1,0 +1,418 @@
+/*
+  Styles for the pricing exception UI.
+
+  Follows Apple's web conventions: system font, soft grey background,
+  white cards, pill buttons and one blue accent. Colours and type are
+  set as variables at the top of the file.
+*/
+
+:root {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --fill: rgba(0, 0, 0, 0.05);
+  --text: #1d1d1f;
+  --muted: #6e6e73;
+  --line: rgba(0, 0, 0, 0.1);
+  --blue: #0071e3;
+  --red: #c4271c;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 400px) 1fr;
+  gap: 1.25rem;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 3rem;
+  align-items: start;
+}
+
+.pane {
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.pane__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.segmented {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--fill);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.segmented button {
+  flex: 1;
+  padding: 0.3rem 0.6rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.segmented button[aria-pressed="true"] {
+  background: var(--card);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.list {
+  margin: 0;
+  padding: 0 0.5rem 0.5rem;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.7rem 0.75rem;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--fill);
+}
+
+.row[aria-current="true"] {
+  background: rgba(0, 113, 227, 0.12);
+}
+
+.row__title {
+  display: block;
+  font-weight: 600;
+}
+
+.row__sub,
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.row__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 980px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pill--pending {
+  background: rgba(255, 149, 0, 0.15);
+  color: #a35200;
+}
+
+.pill--approved {
+  background: rgba(52, 199, 89, 0.16);
+  color: #1d7a3a;
+}
+
+.pill--declined {
+  background: rgba(255, 59, 48, 0.12);
+  color: var(--red);
+}
+
+.pill--withdrawn {
+  background: var(--fill);
+  color: #636366;
+}
+
+.detail {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.75rem;
+}
+
+.empty {
+  padding: 3rem 1.5rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.detail__title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--fill);
+  border-radius: 14px;
+}
+
+.stat__value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.block p {
+  margin: 0;
+}
+
+.actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.actions__row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 1rem 1.5rem;
+  border-left: 2px solid var(--line);
+  margin-left: 0.3rem;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0.35rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.timeline li.is-approved::before {
+  background: #34c759;
+}
+
+.timeline li.is-declined::before {
+  background: #ff3b30;
+}
+
+.timeline li.is-withdrawn::before {
+  background: #8e8e93;
+}
+
+.timeline blockquote {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.button {
+  padding: 0.5rem 1.1rem;
+  border: 0;
+  border-radius: 980px;
+  background: var(--fill);
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease;
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.button--primary {
+  background: var(--blue);
+  color: #fff;
+}
+
+.button--danger {
+  color: var(--red);
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+
+.picker select {
+  width: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+dialog {
+  width: min(460px, calc(100vw - 2rem));
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 20px;
+  background: var(--card);
+  color: var(--text);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+dialog h2 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.hint {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.error {
+  min-height: 1.2rem;
+  margin: 0 0 0.5rem;
+  color: var(--red);
+  font-size: 0.85rem;
+}
+
+.sheet__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  padding: 0.6rem 1.1rem;
+  border-radius: 980px;
+  background: rgba(29, 29, 31, 0.92);
+  color: #fff;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

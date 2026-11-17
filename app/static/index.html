@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+  Pricing exceptions: page shell.
+
+  A top bar with the user picker, a list of requests, a detail pane and a
+  dialog for creating or changing a request. Behaviour lives in app.js
+  and styling in styles.css.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Pricing exceptions</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <h1 class="bar__title">Pricing exceptions</h1>
+      <label class="picker">
+        <span class="picker__label">Signed in as</span>
+        <select id="user-select" aria-label="Signed in as"></select>
+      </label>
+    </header>
+
+    <main class="layout">
+      <section class="pane pane--list" aria-label="Requests">
+        <div class="pane__head">
+          <div
+            class="segmented"
+            id="filters"
+            role="group"
+            aria-label="Filter by status"
+          ></div>
+          <button
+            class="button button--primary"
+            id="new-request"
+            type="button"
+            hidden
+          >
+            New request
+          </button>
+        </div>
+        <ul class="list" id="request-list"></ul>
+      </section>
+
+      <section
+        class="pane pane--detail"
+        id="detail"
+        aria-live="polite"
+      ></section>
+    </main>
+
+    <dialog id="sheet" aria-labelledby="sheet-title">
+      <form id="sheet-form" novalidate>
+        <h2 id="sheet-title">New request</h2>
+        <label class="field">
+          <span>Application</span>
+          <select id="f-application"></select>
+        </label>
+        <label class="field">
+          <span>Discount in basis points</span>
+          <input
+            id="f-discount"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+          />
+          <small class="hint" id="f-preview"></small>
+        </label>
+        <label class="field">
+          <span>Reason</span>
+          <textarea id="f-reason" rows="4"></textarea>
+        </label>
+        <p class="error" id="f-error" role="alert"></p>
+        <div class="sheet__actions">
+          <button class="button" id="f-cancel" type="button">Cancel</button>
+          <button class="button button--primary" id="f-submit" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
