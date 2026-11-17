@@ -54,12 +54,11 @@ Things that I fixed/wrote myself or needed correcting along the way:
 
 ## Bonus: agents in the SDLC around this service
 
-### The problem
+### Reason why
 
 Use of AI agents in a pricing service can be risky (e.g., deleting or
 weakening tests, putting writes outside transactions, etc.).
-A normal code review can miss these when the diff is large and looks
-tidy.
+Normal code review can miss these when the diff is large.
 
 ### What is in the repository
 
@@ -73,14 +72,14 @@ tidy.
 Use of reviewer in Claude Code, ask: *"Use the invariant-reviewer
 agent to review my changes against main."*
 
-### How the agent's output is controlled
+### Controling agent's output
 
 The AI reviewer only advises. It has no write tools, and it has to name a
 concrete sequence of calls before it may mark something as `block`.
-Merging still needs a person.
+Merging still needs a person/reviewer.
 
 What actually blocks a merge is the test suite and the invariant check.
-An agent cannot talk its way past them.
+So an agent cannot move past them.
 
 Example of the check catching a renamed test:
 
@@ -90,7 +89,7 @@ $ python scripts/check_invariants.py
 ✗ test_invariant_renamed is an invariant test missing from docs/invariants.md
 ```
 
-### Risks that stay
+### Risks that remain
 
 - A clean review from the agent does not mean te change is safe. The agent just
   didn't find anything.
@@ -100,7 +99,7 @@ $ python scripts/check_invariants.py
 - Diffs sent to a hosted model may contain sensitive details. In a bank, this
   would need an approved mnodel endpoint and policies. 
 
-### Ideas not built: out of scope
+### Ideas not built: out of scope (or would build wiht time)
 
 - An assistant in the reviewer screen that summarises the request
   history and compares the discount with past approvals for similar
