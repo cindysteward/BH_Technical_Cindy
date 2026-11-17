@@ -48,7 +48,9 @@ Things that I fixed/wrote myself or needed correcting along the way:
   type stub. The pin was removed, since the code targets 3.11 and up.
 - Style rules such as 79-character lines were enforced by the linter,
   not by asking the agent to remember them.
-- Documentation and UI design.
+- Documentation.
+- UI design (created a skeleton and redeveloped/documented with Claude Design
+  Skill).
 
 ## Bonus: agents in the SDLC around this service
 
