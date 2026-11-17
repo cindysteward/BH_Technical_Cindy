@@ -27,7 +27,7 @@ check: lint test
 	$(PY) scripts/check_invariants.py
 
 demo:
-	$(PY) scripts/demo.py
+	$(PY) scripts/demo.py $(if $(STEP),--step)
 
 reset:
 	rm -f data/pricing.db data/pricing.db-wal data/pricing.db-shm

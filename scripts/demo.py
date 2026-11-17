@@ -96,13 +96,16 @@ class Client:
             )
 
 
-def print_step(number: int, text: str) -> None:
+def print_step(number: int, text: str, *, pause: bool) -> None:
     """Print a numbered step heading.
 
     Args:
         number: Step number.
         text: What the step does.
+        pause: Wait for Enter first, except before the first step.
     """
+    if pause and number > 1:
+        input("\n   Press Enter for the next step...")
     print(f"\n{number}. {text}")
 
 
@@ -119,11 +122,12 @@ def expect(condition: bool, message: str) -> None:
     print(f"   ✓ {message}")
 
 
-def run_scenario(client: Client) -> None:
+def run_scenario(client: Client, *, pause: bool) -> None:
     """Run the scenario from start to finish.
 
     Args:
         client: Client pointing at a running service.
+        pause: Wait for Enter between steps.
     """
     applications = client.call("GET", "/applications", "arthur").body
     free = [
@@ -147,7 +151,9 @@ def run_scenario(client: Client) -> None:
     }
 
     print_step(
-        1, f"Arthur (relationship manager) asks for 25 bps off {application}"
+        1,
+        f"Arthur (relationship manager) asks for 25 bps off {application}",
+        pause=pause,
     )
     first = client.call("POST", "/requests", "arthur", body, key)
     expect(
@@ -159,6 +165,7 @@ def run_scenario(client: Client) -> None:
     print_step(
         2,
         "The call times out and is retried with the same Idempotency-Key",
+        pause=pause,
     )
     retry = client.call("POST", "/requests", "arthur", body, key)
     expect(
@@ -170,7 +177,11 @@ def run_scenario(client: Client) -> None:
         "response is marked as a replay",
     )
 
-    print_step(3, "Arthur realises 30 bps is needed and changes the discount")
+    print_step(
+        3,
+        "Arthur realises 30 bps is needed and changes the discount",
+        pause=pause,
+    )
     revised = client.call(
         "POST",
         f"/requests/{first.body['id']}/revisions",
@@ -192,7 +203,9 @@ def run_scenario(client: Client) -> None:
     )
 
     print_step(
-        4, "Tricia (reviewer) tries to approve the old version she had open"
+        4,
+        "Tricia (reviewer) tries to approve the old version she had open",
+        pause=pause,
     )
     stale = client.call(
         "POST",
@@ -202,7 +215,7 @@ def run_scenario(client: Client) -> None:
     )
     expect(stale.status == 409, f"refused: {stale.body['error']['message']}")
 
-    print_step(5, "Tricia approves the current version")
+    print_step(5, "Tricia approves the current version", pause=pause)
     approved = client.call(
         "POST",
         f"/requests/{revised.body['id']}/decision",
@@ -216,7 +229,9 @@ def run_scenario(client: Client) -> None:
     )
 
     print_step(
-        6, "The mortgage application process asks for the approved discount"
+        6,
+        "The mortgage application process asks for the approved discount",
+        pause=pause,
     )
     discount = client.call(
         "GET",
@@ -229,7 +244,7 @@ def run_scenario(client: Client) -> None:
         f"{discount['final_rate_bps']} bps",
     )
 
-    print_step(7, "Rules that must hold")
+    print_step(7, "Rules that must hold", pause=pause)
     dana_key = str(uuid.uuid4())
     own = client.call(
         "POST",
@@ -270,7 +285,7 @@ def run_scenario(client: Client) -> None:
         f"Ford cannot open a second request on {application}",
     )
 
-    print_step(8, "Full history of the approved request")
+    print_step(8, "Full history of the approved request", pause=pause)
     history = client.call(
         "GET", f"/requests/{revised.body['id']}/history", "ford"
     ).body
@@ -289,9 +304,14 @@ def main() -> None:
     """Parse arguments and run the demo."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--base-url", default="http://localhost:8000")
+    parser.add_argument(
+        "--step",
+        action="store_true",
+        help="wait for Enter between steps",
+    )
     options = parser.parse_args()
     try:
-        run_scenario(Client(options.base_url))
+        run_scenario(Client(options.base_url), pause=options.step)
     except urllib.error.URLError:
         print(
             f"Cannot reach {options.base_url}. "
